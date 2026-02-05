@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            text-align: center;
+            background-color: #14213d;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        h1 {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+
+        hr {
+            width: 30rem;
+            border: 1.5px solid #fca311;
+            margin-bottom: 30px;
+        }
+
+        h3{
+            color: cadetblue;
+        }
+        
+        #KeepScores{
+            margin-top: -1ch;
+        }
+
+        button {
+            width: 200px;
+            height: 200px;
+            font-size: 60px;
+            background-color: #fca311;
+            border-radius: 50%;
+            border: 8px solid #e5e5e5;
+            margin: 10px;
+            transition: 0.16s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background-color: #eaa12c;
+            box-shadow: 0px 0px 3px 3px #e5e5e5;
+        }
+
+        button:active {
+            transform: scale(1.1);
+            background-color: #bd7808;
+            box-shadow: 0px 0px 30px 10px #e5e5e5;
+        }
+
+        h2{
+            font-size: x-large;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Rock Paper scissors</h1>
+    <hr>
+    <div>
+        <h3>Score</h3>
+        <h4 id="KeepScores">You: 0 | Robot: 0 | Draws: 0</h4>
+    </div>
+    <button class="choice_bt" value="Rock">🪨</button>
+    <button class="choice_bt" value="Paper">📄</button>
+    <button class="choice_bt" value="Scissors">✂️</button>
+
+    <h2 id="Result"></h2>
+    <script>
+        const UserChoice = document.querySelectorAll(".choice_bt");
+        const choices = ["Rock", "Paper", "Scissors"];
+        const Result = document.querySelector("#Result");
+
+        const scoreDisplay = document.querySelector("#KeepScores")
+        let scores={user:0, robot:0, draw:0};
+
+        function robotChoice() {
+            let Robot = Math.floor(Math.random() * choices.length);
+            return choices[Robot];
+        }
+        function PlayerGame(UserChoice) {
+
+            let RBC = robotChoice();
+
+            if (UserChoice == RBC) {
+                Result.innerHTML = `💨 Is's a draw, <br> nither won you both chose ${RBC}`;
+                scores.draw++;
+            } else if (
+                (UserChoice == 'Rock' && RBC == "Scissors") ||
+                (UserChoice == 'Scissors' && RBC == "Paper") ||
+                (UserChoice == 'Paper' && RBC == "Rock")
+            ) {
+                Result.innerHTML = `You won 🎉🎉,<br> the robot chose ${RBC}`;
+                scores.user++;
+            } else {
+                Result.innerHTML = `You lost,<br> the robot won 🤖, he chose chose ${RBC}`;
+                scores.robot++;
+            }
+
+            scoreDisplay.textContent = `You: ${scores.user} | Robot: ${scores.robot} | Draws: ${scores.draw}`;
+        }
+
+        UserChoice.forEach(button => {
+            button.addEventListener("click", function () {
+                const userValue = this.getAttribute("value");
+                PlayerGame(userValue);
+            });
+        });
+    </script>
+</body>
+
+</html>
